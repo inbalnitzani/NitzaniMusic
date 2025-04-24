@@ -3,27 +3,23 @@ import db from "../db/index.js";
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-    const limit = 15; 
+router.get("/", async (req, res) => {
+    const limit = Number(req.query.limit) || 10;
+    const page = Number(req.query.page) || 1;
+    const offset = (page - 1) * limit;
   
-    let query = 'SELECT * FROM songs';
-    let conditions = [];
-    let values = [];
-    let i = 1;
-  
-  
-    query += ` ORDER BY id ASC LIMIT $${i}`;
-    values.push(limit);
-    i++;
-    
     try {
-  
-      const result = await db.query(query, values);
+      const result = await db.query(
+        "SELECT * FROM songs ORDER BY id ASC LIMIT $1 OFFSET $2",
+        [limit, offset]
+      );
       res.json(result.rows);
+
     } catch (err) {
       console.error("❌ DB query error:", err.message);
-      res.status(500).json({ error: "DB query error" });
+      res.status(500).json({ error: "DB query failed" });
     }
   });
+  
 
 export default router;
