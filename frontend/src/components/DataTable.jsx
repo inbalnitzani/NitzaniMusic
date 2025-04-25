@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import TruncatedCell from './TruncatedCell'
-import Tooltip from '@mui/material/Tooltip';
 
 export default function DataTable() {
 
@@ -48,12 +47,12 @@ export default function DataTable() {
 
                                 {/* //KEYWORDS */}
                                 <td className="px-6 py-4">
-                                    <TruncatedCell value={song.keywords?.join(', ')} />
+                                    <TruncatedCell value={song.keywords?.join(', ')} tooltipId={index + " keywords"}  />
                                 </td>   
 
                                 {/* //GENRES                              */}
                                 <td className="px-6 py-4">
-                                    <TruncatedCell value={song.genres?.join(', ')} />
+                                    <TruncatedCell value={song.genres?.join(', ')} tooltipId={index + " genres"} />
                                 </td>
 
                                 {/* //YOUTUBE LINK */}
@@ -72,7 +71,7 @@ export default function DataTable() {
 
                                 {/* //AUTHORS */}
                                 <td className="px-6 py-4">
-                                    <TruncatedCell value={song.authors?.join(', ')} />
+                                    <TruncatedCell value={song.authors?.join(', ')} tooltipId={index + " authors"} />
                                 </td>
 
                                 {/* //ARTIST */}

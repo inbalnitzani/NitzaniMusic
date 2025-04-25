@@ -1,11 +1,18 @@
 import React from 'react';
+import { Tooltip } from 'react-tooltip'
 
-export default function TruncatedCell({ value, max = 50 }) {
+export default function TruncatedCell({ tooltipId,value, max = 50 }) {
   if (!value) return null;
 
   return (
-    <span title={value}>
+<div>
+<a title={value} data-tooltip-id={tooltipId} data-tooltip-content={value}>
       {value.length > max ? `${value.slice(0, max)}...` : value}
-    </span>
+    </a>
+    <Tooltip id={tooltipId} />
+
+</div>
+
+
   );
 }
