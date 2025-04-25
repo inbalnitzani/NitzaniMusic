@@ -13,7 +13,13 @@ router.get("/", async (req, res) => {
         "SELECT * FROM songs ORDER BY id ASC LIMIT $1 OFFSET $2",
         [limit, offset]
       );
-      res.json(result.rows);
+
+      const countResult = await db.query("SELECT COUNT(*) FROM songs");
+
+      res.json({
+        rows: result.rows,
+        total: parseInt(countResult.rows[0].count, 10)
+      });
 
     } catch (err) {
       console.error("❌ DB query error:", err.message);

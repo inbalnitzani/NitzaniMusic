@@ -1,10 +1,12 @@
 import React from "react";
-import DataTable from "../components/DataTable";
+import SongsDataTable from "../components/SongsDataTable";
+import FilterPanel from "../components/FilterPanel";
 
 export default function AdminPage() {
     return (
       <div>
-        <DataTable/>
+        <FilterPanel/>
+        <SongsDataTable/>
       </div>
     );
   }

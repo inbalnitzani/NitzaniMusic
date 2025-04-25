@@ -6,9 +6,9 @@ export default function TruncatedCell({ tooltipId,value, max = 50 }) {
 
   return (
 <div>
-<a title={value} data-tooltip-id={tooltipId} data-tooltip-content={value}>
+<span title={value} data-tooltip-id={tooltipId} data-tooltip-content={value}>
       {value.length > max ? `${value.slice(0, max)}...` : value}
-    </a>
+    </span>
     <Tooltip id={tooltipId} />
 
 </div>
