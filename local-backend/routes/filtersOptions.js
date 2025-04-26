@@ -7,11 +7,18 @@ router.get("/", async (req, res) => {
   console.log("Request received at /filtersOptions"); // 🔥
 
     try {
-      const result = await db.query(
+      const authorsResult = await db.query(
         "SELECT ARRAY( SELECT DISTINCT unnest(authors) FROM songs);",
       );
 
-      res.json( result.rows[0].array);
+      const keywordsResult = await db.query(
+        "SELECT ARRAY( SELECT DISTINCT unnest(keywords) FROM songs);",
+      );
+
+      res.json({
+        authors: authorsResult.rows[0].array,
+        keywords: keywordsResult.rows[0].array
+      });
 
     } catch (err) {
       console.error("❌ DB query error:", err.message);
