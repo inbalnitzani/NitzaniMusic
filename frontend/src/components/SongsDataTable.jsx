@@ -4,9 +4,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 
-export default function SongsDataTable() {
+export default function SongsDataTable({columns}) {
 
-    const columns = [{ field: 'keywords', header: 'מילות מפתח' }, { field: 'genres', header: "ז'אנרים" }, { field: 'authors', header: 'אומנים' }, { field: 'artist', header: 'מבצע' }, { field: 'title', header: 'שם' }];
     const [songs, setSongs] = useState([]);
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(5);

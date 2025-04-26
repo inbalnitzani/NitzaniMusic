@@ -1,35 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FloatLabel } from "primereact/floatlabel";
-import { Chips } from 'primereact/chips';
-        
-import { Dropdown } from 'primereact/dropdown';
-        
+import { MultiSelect } from 'primereact/multiselect';
+import { InputText } from "primereact/inputtext";
 export default function FilterPanel() {
-    const [value, setValue] = useState([]);
-    const [selectedCity, setSelectedCity] = useState(null);
-    const cities = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
-    ];
+
+    const [filters, setFilters] = useState([
+        { id: 'keywords', label: 'מילות מפתח', value: [] },
+        { id: 'authors', label: 'יוצרים', value: [] }
+    ]);
+
+    const [lyricsFilter, setLyricsFilter] = useState("");
+    const [filtersOptions,setFiltersOptions] = useState([[],[]]);
+
+    const handleChange = (e, i) => {
+        const newFilters = [...filters];
+        newFilters[i].value = e.target.value;
+        setFilters(newFilters);
+    };
+
+        useEffect(() => {
+            fetch(`http://localhost:3000/filtersOptions`)
+                .then(res => res.json())
+                .then(data => {
+                    setFiltersOptions(data); 
+    
+                });
+        }, []);
+    
     return (
-        <div className="flex gap-1">
-        <div className="card p-fluid">
-            <FloatLabel>
-                <Chips id="lyrics" value={value} onChange={(e) => setValue(e.value)} />
+        <div className="card flex flex-column gap-3" >
+
+            {/* Search by lyrics filter */}
+            <FloatLabel key={"lyrics"} >
+                <InputText id="lyrics" value={lyricsFilter} onChange={(e) => setLyricsFilter(e.target.value)} />
                 <label htmlFor="lyrics">חיפוש לפי טקסט</label>
             </FloatLabel>
-        </div>
-        <div className="card flex justify-content-center">
-            <Dropdown value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" 
-                placeholder="חיפוש לפי יוצר" className="w-full md:w-14rem" />
-        </div>
-        <div className="card flex justify-content-center">
-            <Dropdown value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" 
-                placeholder="חיפוש לפי מילת מפתח" className="w-full md:w-14rem" />
-        </div>
+            {/* other filters */}
+            {filters.map((filter, i) => (
+                <FloatLabel key={filter.id} className="w-full  text-right" >
+                    <MultiSelect id={filter.id} value={filter.value} onChange={(e) => handleChange(e, i)} options={filtersOptions}
+                        filter className="w-full " maxSelectedLabels={3}  />
+                    <label htmlFor={filter.id}>{"חיפוש לפי " + filter.label}</label>
+                </FloatLabel>
+            ))}
         </div>
 
 

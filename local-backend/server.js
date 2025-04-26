@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import env from "dotenv";
 import songsRouter from "./routes/songs.js";
+import filtersRouter from "./routes/filtersOptions.js";
 import cors from "cors";
 
 const app = express();
@@ -18,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/songs", songsRouter);
-
+app.use("/filtersOptions",filtersRouter);
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
