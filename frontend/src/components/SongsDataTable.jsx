@@ -1,30 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TruncatedCell from './TruncatedCell'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 
-export default function SongsDataTable({columns}) {
 
-    const [songs, setSongs] = useState([]);
+
+export default function SongsDataTable({ columns, songs, totalRecords, onPageChange}) {
+
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(5);
-    const [totalRecords, setTotalRecords] = useState(0); 
 
     const handlePageChange = (e) => {
-        setPage(Math.floor(e.first / e.rows) + 1);
+
+        const newPage = Math.floor(e.first / e.rows) + 1;
+        setPage(newPage);
         setLimit(e.rows);
+    
+        onPageChange(newPage, e.rows);
+
     };
 
-    useEffect(() => {
-        fetch(`http://localhost:3000/songs?page=${page}&limit=${limit}`)
-            .then(res => res.json())
-            .then(data => {
-                setSongs(data.rows || data); 
-                setTotalRecords(data.total || 50);
-
-            });
-    }, [page, limit]);
 
 
     return (

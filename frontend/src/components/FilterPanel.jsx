@@ -3,7 +3,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { MultiSelect } from 'primereact/multiselect';
 import { InputText } from "primereact/inputtext";
 import Button from '@mui/material/Button';
-export default function FilterPanel() {
+export default function FilterPanel({onChangeFilters}) {
 
     const [filters, setFilters] = useState([
         { id: 'keywords', label: 'מילות מפתח', value: [], options: [] },
@@ -17,6 +17,14 @@ export default function FilterPanel() {
         newFilters[i].value = e.target.value;
         setFilters(newFilters);
     };
+
+    const handelSearch = () => {
+        onChangeFilters({
+            authors: filters.find(f => f.id === 'authors')?.value || [],
+            keywords: filters.find(f => f.id === 'keywords')?.value || [],
+            lyrics: lyricsFilter
+        })
+    }
 
     useEffect(() => {
         fetch(`http://localhost:3000/filtersOptions`)
@@ -41,26 +49,30 @@ export default function FilterPanel() {
     }, []);
 
 
+
     return (
+        <form>
         <div className="card flex flex-column gap-3" >
 
-            <Button variant="outlined">חפש</Button>
+            <Button variant="outlined" onClick={handelSearch}>חפש</Button>
 
             {/* Search by lyrics filter */}
             <FloatLabel key={"lyrics"} >
-                <InputText id="lyrics" value={lyricsFilter} onChange={(e) => setLyricsFilter(e.target.value)} />
+                <InputText id="lyrics" onChange={(e) => setLyricsFilter(e.target.value)} value={lyricsFilter } />
                 <label htmlFor="lyrics">חיפוש לפי טקסט</label>
             </FloatLabel>
             {/* other filters */}
             {filters.map((filter, i) => (
                 <FloatLabel key={filter.id} className="w-full  text-right" >
-                    <MultiSelect id={filter.id} value={filter.value} onChange={(e) => handleChange(e, i)} options={filter.options}
+                    <MultiSelect id={filter.id} onChange={(e) => handleChange(e, i)} value={filter.value} options={filter.options}
                         filter className="w-full " maxSelectedLabels={3} />
                     <label htmlFor={filter.id}>{"חיפוש לפי " + filter.label}</label>
                 </FloatLabel>
             ))}
 
         </div>
+        </form>
+
 
 
 
