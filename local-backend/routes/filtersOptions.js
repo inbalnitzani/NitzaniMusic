@@ -4,7 +4,6 @@ import db from "../db/index.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  console.log("Request received at /filtersOptions"); // 🔥
 
     try {
       const authorsResult = await db.query(
