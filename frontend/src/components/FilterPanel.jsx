@@ -3,7 +3,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { MultiSelect } from 'primereact/multiselect';
 import { InputText } from "primereact/inputtext";
 import Button from '@mui/material/Button';
-export default function FilterPanel({onChangeFilters}) {
+export default function FilterPanel({ onChangeFilters }) {
 
     const [filters, setFilters] = useState([
         { id: 'keywords', label: 'מילות מפתח', value: [], options: [] },
@@ -52,25 +52,24 @@ export default function FilterPanel({onChangeFilters}) {
 
     return (
         <form>
-        <div className="card flex flex-column gap-3" >
+            <div className="card flex flex-column gap-3" >
+                <Button variant="outlined" onClick={handelSearch}>חפש</Button>
 
-            <Button variant="outlined" onClick={handelSearch}>חפש</Button>
-
-            {/* Search by lyrics filter */}
-            <FloatLabel key={"lyrics"} >
-                <InputText id="lyrics" onChange={(e) => setLyricsFilter(e.target.value)} value={lyricsFilter } />
-                <label htmlFor="lyrics">חיפוש לפי טקסט</label>
-            </FloatLabel>
-            {/* other filters */}
-            {filters.map((filter, i) => (
-                <FloatLabel key={filter.id} className="w-full  text-right" >
-                    <MultiSelect id={filter.id} onChange={(e) => handleChange(e, i)} value={filter.value} options={filter.options}
-                        filter className="w-full " maxSelectedLabels={3} />
-                    <label htmlFor={filter.id}>{"חיפוש לפי " + filter.label}</label>
+                {/* Search by lyrics filter */}
+                <FloatLabel key={"lyrics"} >
+                    <InputText id="lyrics" onChange={(e) => setLyricsFilter(e.target.value)} value={lyricsFilter} />
+                    <label htmlFor="lyrics">חיפוש לפי טקסט</label>
                 </FloatLabel>
-            ))}
+                {/* other filters */}
+                {filters.map((filter, i) => (
+                    <FloatLabel key={filter.id} className="w-full  text-right" >
+                        <MultiSelect id={filter.id} onChange={(e) => handleChange(e, i)} value={filter.value} options={filter.options}
+                            filter className="w-full " maxSelectedLabels={3} />
+                        <label htmlFor={filter.id}>{"חיפוש לפי " + filter.label}</label>
+                    </FloatLabel>
+                ))}
 
-        </div>
+            </div>
         </form>
 
 

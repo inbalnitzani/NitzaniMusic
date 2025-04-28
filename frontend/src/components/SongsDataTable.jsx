@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import TruncatedCell from './TruncatedCell'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import "primereact/resources/themes/lara-light-cyan/theme.css";
-
-
+import { Button } from 'primereact/button';
+import SongsPDF from './SongsPDF';
+import { pdf } from '@react-pdf/renderer'; 
 
 export default function SongsDataTable({ columns, songs, totalRecords, onPageChange }) {
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(5);
-    const [selectedSongs, setSelectedSongs] = useState(null);
-
+    const [selectedSongs, setSelectedSongs] = useState([]);
+ 
     const handlePageChange = (e) => {
 
         const newPage = Math.floor(e.first / e.rows) + 1;
@@ -22,13 +22,35 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
 
     };
 
+    const handleExportSelected = async () => {
+        if (selectedSongs.length === 0) {
+          alert('לא נבחרו שירים לייצוא');
+          return;
+        }
+      
+        const blob = await pdf(<SongsPDF songs={selectedSongs} />).toBlob();
+        const url = URL.createObjectURL(blob);
+      
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'songs.pdf';
+        a.click();
+      
+        URL.revokeObjectURL(url); // ניקוי זיכרון
+      };
 
-
+      const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
+      const paginatorRight = <Button  onClick={handleExportSelected} type="button" icon="pi pi-download" text />;
+  
     return (
+        
         <div className="card " >
+            
             <DataTable value={songs}
                 lazy
                 paginator
+                paginatorLeft={paginatorLeft}
+                paginatorRight={paginatorRight}
                 onPage={handlePageChange}
                 totalRecords={totalRecords}
                 first={(page - 1) * limit}
