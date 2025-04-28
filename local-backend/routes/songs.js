@@ -27,23 +27,27 @@ router.get("/", async (req, res) => {
   let values = [];
   let paramIndex = 1;
 
+  //AUTHORS
   if (authors.length > 0) {
     whereClauses.push(`authors && $${paramIndex}::text[]`);
     values.push(authors);
     paramIndex++;
   }
   
+  //KEYWORDS
   if (keywords.length > 0) {
     whereClauses.push(`keywords && $${paramIndex}::text[]`);
     values.push(keywords);
     paramIndex++;
   }
 
+  //LYRICS
   if (lyrics) {
     whereClauses.push(`lyrics ILIKE $${paramIndex}`);
     values.push(`%${lyrics}%`);
     paramIndex++;
   }
+  
 
   const whereSQL = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
 
