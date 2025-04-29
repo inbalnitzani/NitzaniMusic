@@ -4,14 +4,16 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import SongsPDF from './SongsPDF';
-import { pdf } from '@react-pdf/renderer'; 
-
+import { pdf } from '@react-pdf/renderer';
+import { Dialog } from 'primereact/dialog';
+import { SongsExcel } from "./SongsExcel";
 export default function SongsDataTable({ columns, songs, totalRecords, onPageChange }) {
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(5);
     const [selectedSongs, setSelectedSongs] = useState([]);
- 
+    const [visible, setVisible] = useState(false);
+
     const handlePageChange = (e) => {
 
         const newPage = Math.floor(e.first / e.rows) + 1;
@@ -22,30 +24,43 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
 
     };
 
-    const handleExportSelected = async () => {
+    const handleExportSelectedPDF = async () => {
         if (selectedSongs.length === 0) {
-          alert('לא נבחרו שירים לייצוא');
-          return;
+            alert('לא נבחרו שירים לייצוא');
+            return;
         }
-      
+
         const blob = await pdf(<SongsPDF songs={selectedSongs} />).toBlob();
         const url = URL.createObjectURL(blob);
-      
+
         const a = document.createElement('a');
         a.href = url;
         a.download = 'songs.pdf';
         a.click();
-      
-        URL.revokeObjectURL(url); // ניקוי זיכרון
-      };
 
-      const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
-      const paginatorRight = <Button  onClick={handleExportSelected} type="button" icon="pi pi-download" text />;
-  
+        URL.revokeObjectURL(url);
+    };
+
+    const handleExportSelectedExcel = () => {
+        if (selectedSongs.length === 0) {
+            alert('לא נבחרו שירים לייצוא');
+            return;
+        }
+        SongsExcel(selectedSongs, ['title', 'artist', 'authors','track']); 
+      };
+    const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
+    const paginatorRight = <Button onClick={() => setVisible(true)} type="button" icon="pi pi-download" text />;
+
     return (
-        
+
         <div className="card " >
-            
+            <Dialog dir="rtl" header="בחר סוג קובץ:" visible={visible} onHide={() => { if (!visible) return; setVisible(false); }}
+                style={{ width: '20vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+                closeIcon={<i className="pi pi-times" />}>
+                <div className="flex justify-center gap-1.5">
+                    <button onClick={handleExportSelectedPDF}>PDF</button>
+                    <button  onClick={handleExportSelectedExcel}>Excel</button></div>
+            </Dialog>
             <DataTable value={songs}
                 lazy
                 paginator
@@ -57,7 +72,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                 rows={limit}
                 rowsPerPageOptions={[5, 10, 25, 50]}
                 tableStyle={{ minWidth: '50rem' }}
-                 selection={selectedSongs} onSelectionChange={(e) => setSelectedSongs(e.value)}>
+                selection={selectedSongs} onSelectionChange={(e) => setSelectedSongs(e.value)}>
 
                 {columns.map((col, i) => (
                     <Column key={col.field} field={col.field} header={col.header}
@@ -72,7 +87,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                             />
                         )} />
                 ))}
-                              <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+                <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
 
 
 
