@@ -46,21 +46,24 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
             alert('לא נבחרו שירים לייצוא');
             return;
         }
-        SongsExcel(selectedSongs, ['title', 'artist', 'authors','track']); 
-      };
+        SongsExcel(selectedSongs, ['title', 'artist', 'authors', 'track']);
+    };
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
     const paginatorRight = <Button onClick={() => setVisible(true)} type="button" icon="pi pi-download" text />;
 
     return (
 
         <div className="card " >
+            {/* EXPORT DIALOG */}
             <Dialog dir="rtl" header="בחר סוג קובץ:" visible={visible} onHide={() => { if (!visible) return; setVisible(false); }}
                 style={{ width: '20vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}
                 closeIcon={<i className="pi pi-times" />}>
                 <div className="flex justify-center gap-1.5">
                     <button onClick={handleExportSelectedPDF}>PDF</button>
-                    <button  onClick={handleExportSelectedExcel}>Excel</button></div>
+                    <button onClick={handleExportSelectedExcel}>Excel</button></div>
             </Dialog>
+
+            {/* SONGS TABLE */}
             <DataTable value={songs}
                 lazy
                 paginator
@@ -75,18 +78,44 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                 selection={selectedSongs} onSelectionChange={(e) => setSelectedSongs(e.value)}>
 
                 {columns.map((col, i) => (
-                    <Column key={col.field} field={col.field} header={col.header}
-                        body={(rowData) => (
-                            <TruncatedCell
-                                tooltipId={col.header + i}
-                                value={
-                                    Array.isArray(rowData[col.field])
-                                        ? rowData[col.field].join(', ')
-                                        : rowData[col.field]
-                                }
-                            />
-                        )} />
+
+                    // link to youtube
+                    col.field === 'track' ? (
+                        <Column
+                            key={col.field}
+                            header={col.header}
+                            body={(rowData) =>
+                                rowData.track ? (
+                                    <Button
+                                        icon="pi pi-play-circle"
+                                        onClick={() => window.open(rowData.track, '_blank')}
+                                        className="p-button-sm p-button-text"
+                                    />
+                                ) : null
+                            }
+                            style={{ width: '6rem', textAlign: 'center' }}
+                        />
+                    ) : (
+
+                        //other columns 
+                        <Column
+                            key={col.field}
+                            field={col.field}
+                            header={col.header}
+                            body={(rowData) => (
+                                <TruncatedCell
+                                    tooltipId={col.header + i}
+                                    value={
+                                        Array.isArray(rowData[col.field])
+                                            ? rowData[col.field].join(', ')
+                                            : rowData[col.field]
+                                    }
+                                />
+                            )}
+                        />
+                    )
                 ))}
+
                 <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
 
 
