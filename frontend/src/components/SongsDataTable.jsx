@@ -77,15 +77,17 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
             <Dialog dir="rtl" header="בחר סוג קובץ:" visible={exportVisible} onHide={() => { if (!exportVisible) return; setExportVisible(false); }}
                 style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}
                 closeIcon={<i className="pi pi-times" />}>
-                <div className="flex flex-col  items-center gap-3">
+                <div className="dialog-body">
+                    <div className="p-fluid">
                     <FloatLabel  >
                         <InputText id="fileName" onChange={(e) => setFileName(e.target.value)} value={fileName} />
                         <label htmlFor="fileName">שם הקובץ</label>
                     </FloatLabel>
-                    <div className="flex justify-center gap-2">
+                    </div>
+                    <div className="dialog-buttons">
 
-                        <button onClick={handleExportSelectedPDF}>PDF</button>
-                        <button onClick={handleExportSelectedExcel}>Excel</button>
+                        <Button onClick={handleExportSelectedPDF}>PDF</Button>
+                        <Button onClick={handleExportSelectedExcel}>Excel</Button>
                     </div>
                 </div>
             </Dialog>
