@@ -7,13 +7,16 @@ import SongsPDF from './SongsPDF';
 import { pdf } from '@react-pdf/renderer';
 import { Dialog } from 'primereact/dialog';
 import { SongsExcel } from "./SongsExcel";
+import { InputText } from "primereact/inputtext";
+import { FloatLabel } from "primereact/floatlabel";
+
 export default function SongsDataTable({ columns, songs, totalRecords, onPageChange }) {
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(5);
     const [selectedSongs, setSelectedSongs] = useState([]);
     const [visible, setVisible] = useState(false);
-
+    const [fileName, setFileName] = useState('');
     const handlePageChange = (e) => {
 
         const newPage = Math.floor(e.first / e.rows) + 1;
@@ -35,10 +38,12 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'songs.pdf';
+        a.download = fileName + '.pdf';
         a.click();
 
         URL.revokeObjectURL(url);
+        setFileName('');
+        setVisible(false);
     };
 
     const handleExportSelectedExcel = () => {
@@ -46,7 +51,9 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
             alert('לא נבחרו שירים לייצוא');
             return;
         }
-        SongsExcel(selectedSongs, ['title', 'artist', 'authors', 'track']);
+        SongsExcel(selectedSongs, ['title', 'artist', 'authors', 'track'],fileName);
+        setFileName('');
+        setVisible(false);
     };
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
     const paginatorRight = <Button onClick={() => setVisible(true)} type="button" icon="pi pi-download" text />;
@@ -56,11 +63,19 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
         <div className="card " >
             {/* EXPORT DIALOG */}
             <Dialog dir="rtl" header="בחר סוג קובץ:" visible={visible} onHide={() => { if (!visible) return; setVisible(false); }}
-                style={{ width: '20vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+                style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}
                 closeIcon={<i className="pi pi-times" />}>
-                <div className="flex justify-center gap-1.5">
-                    <button onClick={handleExportSelectedPDF}>PDF</button>
-                    <button onClick={handleExportSelectedExcel}>Excel</button></div>
+                <div className="flex flex-col  items-center gap-3">
+                    <FloatLabel  >
+                        <InputText id="fileName" onChange={(e) => setFileName(e.target.value)} value={fileName} />
+                        <label htmlFor="fileName">שם הקובץ</label>
+                    </FloatLabel>
+                    <div className="flex justify-center gap-2">
+
+                        <button onClick={handleExportSelectedPDF}>PDF</button>
+                        <button onClick={handleExportSelectedExcel}>Excel</button>
+                    </div>
+                </div>
             </Dialog>
 
             {/* SONGS TABLE */}
