@@ -1,21 +1,28 @@
 import React from 'react';
 import logo from '../../assets/logo.png';
-
+import { Menubar } from 'primereact/menubar';
+import { InputText } from 'primereact/inputtext';
+import { Badge } from 'primereact/badge';
+import { Avatar } from 'primereact/avatar';
 export default function Header() {
-  return (
-    <header >
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold tracking-tight flex items-center gap-2">
-            <img src={logo} alt="Nitzani Music Logo" className="w-24 " />
-        </h1>
 
-        <nav className="space-x-4 text-sm">
-          <a href="#" className="hover:underline">Home</a>
-          <a href="#" className="hover:underline">About</a>
-          <a href="#" className="hover:underline">Contact</a>
-        </nav>
-      </div>
-      
-    </header>
+  const items = [
+    {
+      label: 'Home',
+      icon: 'pi pi-home'
+    },
+    {
+      label: 'Features',
+      icon: 'pi pi-star'
+    },
+    
+  ];
+
+  const start = <img alt="logo" src={logo} height="80" className="mr-2"></img>;
+
+  return (
+    <div className="card">
+      <Menubar model={items} start={start}  />
+    </div>
   );
 }

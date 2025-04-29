@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SongsDataTable from "../components/SongsDataTable";
 import FilterPanel from "../components/FilterPanel";
 
+
 export default function AdminPage() {
 
   const [filters, setFilters] = useState({});
@@ -49,8 +50,9 @@ export default function AdminPage() {
   }
 
   return (
-    <div>
-      <FilterPanel onChangeFilters={handleFilterChange} />
+    <div className="">
+
+<FilterPanel onChangeFilters={handleFilterChange} />   
       <SongsDataTable 
         columns={columns}
         songs={songs}

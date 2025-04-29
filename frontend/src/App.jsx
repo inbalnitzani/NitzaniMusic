@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-            <PrimeReactProvider>
+      <PrimeReactProvider >
 
       <Header />
       <main className="p-6">

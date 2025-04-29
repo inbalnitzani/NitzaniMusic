@@ -9,14 +9,16 @@ import { Dialog } from 'primereact/dialog';
 import { SongsExcel } from "./SongsExcel";
 import { InputText } from "primereact/inputtext";
 import { FloatLabel } from "primereact/floatlabel";
-
+import EditSong from "./EditSong";
 export default function SongsDataTable({ columns, songs, totalRecords, onPageChange }) {
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(5);
     const [selectedSongs, setSelectedSongs] = useState([]);
-    const [visible, setVisible] = useState(false);
+    const [exportVisible, setExportVisible] = useState(false);
+    const [newSongVisible, setnewSongVisible] = useState(false);
     const [fileName, setFileName] = useState('');
+
     const handlePageChange = (e) => {
 
         const newPage = Math.floor(e.first / e.rows) + 1;
@@ -43,7 +45,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
 
         URL.revokeObjectURL(url);
         setFileName('');
-        setVisible(false);
+        setExportVisible(false);
     };
 
     const handleExportSelectedExcel = () => {
@@ -51,18 +53,28 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
             alert('לא נבחרו שירים לייצוא');
             return;
         }
-        SongsExcel(selectedSongs, ['title', 'artist', 'authors', 'track'],fileName);
+        SongsExcel(selectedSongs, ['title', 'artist', 'authors', 'track'], fileName);
         setFileName('');
-        setVisible(false);
+        setExportVisible(false);
     };
+
+
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
-    const paginatorRight = <Button onClick={() => setVisible(true)} type="button" icon="pi pi-download" text />;
+    const paginatorRight = <Button onClick={() => setExportVisible(true)} type="button" icon="pi pi-download" text />;
 
     return (
 
         <div className="card " >
+            {/* ADD NEW SONG DIALOG */}
+            <Dialog 
+            visible={newSongVisible}
+            style={{ width: '50vw' }} onHide={() => {if (!newSongVisible) return; setnewSongVisible(false); } } closeIcon={<i className="pi pi-times" />} >
+                <EditSong></EditSong>
+            </Dialog>
+
+
             {/* EXPORT DIALOG */}
-            <Dialog dir="rtl" header="בחר סוג קובץ:" visible={visible} onHide={() => { if (!visible) return; setVisible(false); }}
+            <Dialog dir="rtl" header="בחר סוג קובץ:" visible={exportVisible} onHide={() => { if (!exportVisible) return; setExportVisible(false); }}
                 style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}
                 closeIcon={<i className="pi pi-times" />}>
                 <div className="flex flex-col  items-center gap-3">
@@ -132,6 +144,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                 ))}
 
                 <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+                <Column header={<Button type="button" icon="pi pi-plus" text onClick={() => setnewSongVisible(true)}/>} body={<Button type="button" icon="pi pi-pen-to-square" text />}></Column>
 
 
 

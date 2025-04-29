@@ -52,7 +52,7 @@ export default function FilterPanel({ onChangeFilters }) {
 
     return (
         <form>
-            <div className="card flex flex-column gap-3" >
+            <div className=" flex flex-row gap-3" >
                 <Button variant="outlined" onClick={handelSearch}>חפש</Button>
 
                 {/* Search by lyrics filter */}
