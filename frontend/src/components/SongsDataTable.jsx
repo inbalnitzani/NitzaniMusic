@@ -18,6 +18,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
     const [exportVisible, setExportVisible] = useState(false);
     const [newSongVisible, setnewSongVisible] = useState(false);
     const [fileName, setFileName] = useState('');
+    const [songToEdit,setSongToEdit] = useState(null);
 
     const handlePageChange = (e) => {
 
@@ -68,8 +69,10 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
             {/* ADD NEW SONG DIALOG */}
             <Dialog 
             visible={newSongVisible}
-            style={{ width: '50vw' }} onHide={() => {if (!newSongVisible) return; setnewSongVisible(false); } } closeIcon={<i className="pi pi-times" />} >
-                <EditSong></EditSong>
+            style={{ width: '50vw' }} onHide={() => {
+                setSongToEdit(null)
+                if (!newSongVisible) return; setnewSongVisible(false); } } closeIcon={<i className="pi pi-times" />} >
+                <EditSong songToEdit={songToEdit}></EditSong>
             </Dialog>
 
 
@@ -144,9 +147,17 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                         />
                     )
                 ))}
-
+                {/* SELECT FOR EXPORT */}
                 <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                <Column header={<Button type="button" icon="pi pi-plus" text onClick={() => setnewSongVisible(true)}/>} body={<Button type="button" icon="pi pi-pen-to-square" text />}></Column>
+                {/* EDIT */}
+                <Column 
+                    header={<Button type="button" icon="pi pi-plus" text onClick={() => setnewSongVisible(true)}/>} 
+                    body={(rowData) => (<Button type="button" icon="pi pi-pen-to-square" text onClick={() => {
+                        setnewSongVisible(true)
+                        setSongToEdit(rowData)
+                        }} />)}>
+                        
+                </Column>
 
 
 
