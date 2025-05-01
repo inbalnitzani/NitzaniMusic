@@ -11,14 +11,14 @@ export default function AdminPage() {
   const [limit, setLimit] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
 
-  const columns = [{ field: 'track', header: 'קישור'},{ field: 'keywords', header: 'מילות מפתח' }, { field: 'genres', header: "ז'אנרים" }, { field: 'authors', header: 'יוצרים' }, { field: 'artist', header: 'מבצע' }, { field: 'title', header: 'שם' }];
+  const columns = [{ field: 'title', header: 'שם' }, { field: 'artist', header: 'מבצע' }, { field: 'authors', header: 'יוצרים' }, { field: 'genres', header: "ז'אנרים" }, { field: 'keywords', header: 'מילות מפתח' }, { field: 'track', header: 'קישור' }];
 
   useEffect(() => {
 
     const params = new URLSearchParams();
     params.append('page', page);
     params.append('limit', limit);
-  
+
     if (filters.lyrics) {
       params.append('lyrics', filters.lyrics);
     }
@@ -28,7 +28,7 @@ export default function AdminPage() {
     if (filters.keywords && filters.keywords.length > 0) {
       filters.keywords.forEach(keyword => params.append('keywords', keyword));
     }
-    
+
 
     fetch(`http://localhost:3000/songs?${params.toString()}`)
       .then(res => res.json())
@@ -46,14 +46,14 @@ export default function AdminPage() {
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
-    setPage(1); 
+    setPage(1);
   }
 
   return (
-    <div className="">
-
-<FilterPanel onChangeFilters={handleFilterChange} />   
-      <SongsDataTable 
+    <div className="page">
+      <h1>שירים</h1>
+      <FilterPanel onChangeFilters={handleFilterChange} />
+      <SongsDataTable
         columns={columns}
         songs={songs}
         totalRecords={totalRecords}

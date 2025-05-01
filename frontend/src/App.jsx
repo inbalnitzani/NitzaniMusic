@@ -12,7 +12,7 @@ function App() {
       <PrimeReactProvider >
 
       <Header />
-      <main className="p-6">
+      <main className="layout-content">
         <AdminPage />
       </main>
       <Footer />

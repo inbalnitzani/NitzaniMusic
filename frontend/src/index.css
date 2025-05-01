@@ -1,13 +1,15 @@
 /* index.css נקי */
-*{
+* {
   text-align: right;
 }
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
   background-color: #ffffff;
   color: #000000;
 }
+
 .dialog-body {
   display: flex;
   flex-direction: column;
@@ -24,4 +26,26 @@ body {
 
 .chips-spacing .p-chips-token {
   margin: 0.5rem 0.5rem 0.2rem 0;
+}
+
+.songs-table .p-paginator {
+  direction: ltr;
+  text-align: left;
+}
+
+.page {}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 4rem;
+}
+
+.layout-content {
+  width: 1504px;
+  padding-top: 4rem;
+  padding-left: 20rem;
 }

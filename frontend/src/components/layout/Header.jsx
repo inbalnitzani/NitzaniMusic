@@ -8,12 +8,12 @@ export default function Header() {
 
   const items = [
     {
-      label: 'Home',
+      label: 'דף הבית',
       icon: 'pi pi-home'
     },
     {
-      label: 'Features',
-      icon: 'pi pi-star'
+      label: 'שירים',
+      icon: 'pi pi-play-circle'
     },
     
   ];
@@ -21,7 +21,7 @@ export default function Header() {
   const start = <img alt="logo" src={logo} height="80" className="mr-2"></img>;
 
   return (
-    <div className="card">
+    <div className="header">
       <Menubar model={items} start={start}  />
     </div>
   );

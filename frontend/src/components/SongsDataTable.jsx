@@ -97,6 +97,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
 
             {/* SONGS TABLE */}
             <DataTable value={songs}
+            dir="rtl"
                 lazy
                 paginator
                 paginatorLeft={paginatorLeft}
@@ -107,7 +108,20 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                 rows={limit}
                 rowsPerPageOptions={[5, 10, 25, 50]}
                 tableStyle={{ minWidth: '50rem' }}
-                selection={selectedSongs} onSelectionChange={(e) => setSelectedSongs(e.value)}>
+                selection={selectedSongs} onSelectionChange={(e) => setSelectedSongs(e.value)}
+                className="songs-table">
+
+                                    {/* SELECT FOR EXPORT */}
+                <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+                {/* EDIT */}
+                <Column 
+                    header={<Button type="button" icon="pi pi-plus" text onClick={() => setnewSongVisible(true)}/>} 
+                    body={(rowData) => (<Button type="button" icon="pi pi-pen-to-square" text onClick={() => {
+                        setnewSongVisible(true)
+                        setSongToEdit(rowData)
+                        }} />)}>
+                        
+                </Column>
 
                 {columns.map((col, i) => (
 
@@ -125,7 +139,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                                     />
                                 ) : null
                             }
-                            style={{ width: '6rem', textAlign: 'center' }}
+                            style={{ width: '6rem', textAlign: 'right' }}
                         />
                     ) : (
 
@@ -147,17 +161,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                         />
                     )
                 ))}
-                {/* SELECT FOR EXPORT */}
-                <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                {/* EDIT */}
-                <Column 
-                    header={<Button type="button" icon="pi pi-plus" text onClick={() => setnewSongVisible(true)}/>} 
-                    body={(rowData) => (<Button type="button" icon="pi pi-pen-to-square" text onClick={() => {
-                        setnewSongVisible(true)
-                        setSongToEdit(rowData)
-                        }} />)}>
-                        
-                </Column>
+
 
 
 

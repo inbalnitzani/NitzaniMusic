@@ -51,7 +51,7 @@ export default function FilterPanel({ onChangeFilters }) {
 
 
     return (
-        <form>
+        <form className="">
             <div className=" flex flex-row gap-3" >
                 <Button variant="outlined" onClick={handelSearch}>חפש</Button>
 
