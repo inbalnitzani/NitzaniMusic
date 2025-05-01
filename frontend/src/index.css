@@ -1,4 +1,7 @@
 /* index.css נקי */
+*{
+  text-align: right;
+}
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -19,3 +22,6 @@ body {
   gap: 1rem;
 }
 
+.chips-spacing .p-chips-token {
+  margin: 0.5rem 0.5rem 0.2rem 0;
+}

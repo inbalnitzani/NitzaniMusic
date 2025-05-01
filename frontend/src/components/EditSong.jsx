@@ -44,7 +44,7 @@ export default function EditSong({ songToEdit }) {
     const confirm2 = (event) => {
         confirmPopup({
             target: event.currentTarget,
-            message: 'Do you want to delete this record?',
+            message: 'אתה בטוח שאתה רוצה למחוק את השיר הזה?',
             icon: 'pi pi-info-circle',
             defaultFocus: 'reject',
             acceptClassName: 'p-button-danger',
@@ -87,24 +87,24 @@ export default function EditSong({ songToEdit }) {
                 </div>
 
                 {/* AUTHORS */}
-                <div className="flex-auto w-full">
+                <div className="flex-auto w-full" dir='ltr'>
                     <label htmlFor="minmaxfraction" className="font-bold block mb-2">יוצרים</label>
-                    <Chips value={song.authors} onChange={(e) => setSong({ ...song, authors: e.value })} separator="," />
+                    <Chips value={song.authors} onChange={(e) => setSong({ ...song, authors: e.value })} separator="," className="chips-spacing"/>
                 </div>
                 {/* TAGS */}
-                <div className="flex-auto w-full">
+                <div className="flex-auto w-full" dir='ltr'>
                     <label htmlFor="minmax" className="font-bold block mb-2">טאגים</label>
-                    <Chips value={song.tags} onChange={(e) => setSong({ ...song, tags: e.value })} separator="," />
+                    <Chips value={song.tags} onChange={(e) => setSong({ ...song, tags: e.value })} separator=","   className="chips-spacing"/>
                 </div>
                 {/* KEYWORDS */}
-                <div className="flex-auto w-full">
+                <div className="flex-auto w-full" dir='ltr'>
                     <label htmlFor="minmax" className="font-bold block mb-2">מילות מפתח</label>
-                    <Chips value={song.keywords} onChange={(e) => setSong({ ...song, keywords: e.value })} separator="," />
+                    <Chips value={song.keywords} onChange={(e) => setSong({ ...song, keywords: e.value })} separator="," className="chips-spacing"/>
                 </div>
                 {/* GENRES */}
-                <div className="flex-auto w-full">
+                <div className="flex-auto w-full gap-2" dir='ltr'>
                     <label htmlFor="minmax" className="font-bold block mb-2">ז'אנרים</label>
-                    <Chips value={song.genres} onChange={(e) => setSong({ ...song, genres: e.value })} separator="," />
+                    <Chips value={song.genres} onChange={(e) => setSong({ ...song, genres: e.value })} separator="," className="chips-spacing"/>
                 </div>
                 {/* LYRICS */}
                 <div className="flex-auto">
