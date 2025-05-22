@@ -1,0 +1,12 @@
+{
+  "name": "nitzanimusic",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm --prefix frontend run dev\" \"npm --prefix local-backend start\"",
+    "build": "npm --prefix frontend run build",
+    "start": "node local-backend/server.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
+}

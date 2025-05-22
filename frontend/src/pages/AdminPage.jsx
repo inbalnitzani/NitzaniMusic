@@ -11,7 +11,7 @@ export default function AdminPage() {
   const [limit, setLimit] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
 
-  const columns = [{ field: 'title', header: 'שם' }, { field: 'artist', header: 'מבצע' }, { field: 'authors', header: 'יוצרים' }, { field: 'genres', header: "ז'אנרים" }, { field: 'keywords', header: 'מילות מפתח' }, { field: 'track', header: 'קישור' }];
+  const columns = [{ field: 'title', header: 'שם' }, { field: 'artist', header: 'מבצע' }, { field: 'authors', header: 'יוצרים' }, { field: 'genres', header: "ז'אנרים" }, { field: 'keywords', header: 'מילות מפתח' }, { field: 'link', header: 'קישור' }];
 
   useEffect(() => {
 
