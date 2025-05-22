@@ -30,10 +30,10 @@ const getFilteredSongs = async (req, res) => {
 const getFilters = async (req, res) => {
 
     try{
-    const filtersOptions = await Promise.all(SongModel.getFiltersOptions());
+    const filtersOptions = await SongModel.getFiltersOptions();
     res.json(filtersOptions);
     }
-    catch{
+    catch(err){
         console.error("❌ DB query error:", err.message);
         res.status(500).json({ error: "DB query failed" });  
     }

@@ -28,25 +28,26 @@ export default function FilterPanel({ onChangeFilters }) {
 
     useEffect(() => {
         fetch(`http://localhost:3000/filtersOptions`)
-            .then(res => res.json())
-            .then(data => {
-                setFilters(prevFilters => {
-                    const newFilters = [...prevFilters];
-
-                    const authorsFilter = newFilters.find(f => f.id === 'authors');
-                    if (authorsFilter) {
-                        authorsFilter.options = data.authors;
-                    }
-
-                    const keywordsFilter = newFilters.find(f => f.id === 'keywords');
-                    if (keywordsFilter) {
-                        keywordsFilter.options = data.keywords;
-                    }
-
-                    return newFilters;
-                });
+          .then(res => res.json())
+          .then(data => {
+            setFilters(prevFilters => {
+              const newFilters = [...prevFilters];
+      
+              const authorsFilter = newFilters.find(f => f.id === 'authors');
+              if (authorsFilter) {
+                authorsFilter.options = data.authors.map(a => ({ label: a, value: a }));
+              }
+      
+              const keywordsFilter = newFilters.find(f => f.id === 'keywords');
+              if (keywordsFilter) {
+                keywordsFilter.options = data.keywords.map(k => ({ label: k, value: k }));
+              }
+      
+              return newFilters;
             });
-    }, []);
+          });
+      }, []);
+      
 
 
 

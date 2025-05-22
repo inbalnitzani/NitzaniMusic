@@ -126,15 +126,15 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                 {columns.map((col, i) => (
 
                     // link to youtube
-                    col.field === 'track' ? (
+                    col.field === 'link' ? (
                         <Column
                             key={col.field}
                             header={col.header}
                             body={(rowData) =>
-                                rowData.track ? (
+                                rowData.link ? (
                                     <Button
                                         icon="pi pi-play-circle"
-                                        onClick={() => window.open(rowData.track, '_blank')}
+                                        onClick={() => window.open(rowData.link, '_blank')}
                                         className="p-button-sm p-button-text"
                                     />
                                 ) : null
@@ -152,9 +152,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                                 <TruncatedCell
                                     tooltipId={col.header + i}
                                     value={
-                                        Array.isArray(rowData[col.field])
-                                            ? rowData[col.field].join(', ')
-                                            : rowData[col.field]
+                                      rowData[col.field]
                                     }
                                 />
                             )}
