@@ -17,7 +17,7 @@ export default function AdminPage() {
 
   // check auth
     useEffect(() => {
-    fetch("${import.meta.env.VITE_API_URL}/auth/user", {
+    fetch(`${import.meta.env.VITE_API_URL}/auth/user`, {
       credentials: "include"
     })
       .then(res => {

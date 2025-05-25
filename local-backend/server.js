@@ -39,5 +39,5 @@ app.use("/filtersOptions", filtersRouter);
 app.use("/auth", authRouter);  
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on Port:${port}`);
 });
