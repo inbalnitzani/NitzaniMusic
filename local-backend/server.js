@@ -20,7 +20,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.set('trust proxy', 1); 
+app.set('trust proxy', 1);
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -30,6 +31,7 @@ app.use(session({
     sameSite: 'lax'
   }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
