@@ -131,6 +131,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                             key={col.field}
                             header={col.header}
                             body={(rowData) =>
+                                
                                 rowData.link ? (
                                     <Button
                                         icon="pi pi-play-circle"
