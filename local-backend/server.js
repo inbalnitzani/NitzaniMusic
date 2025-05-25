@@ -10,7 +10,7 @@ import authRouter from "./routes/auth.js";
 
 dotenv.config();
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -39,5 +39,5 @@ app.use("/filtersOptions", filtersRouter);
 app.use("/auth", authRouter);  
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on Port:${port}`);
 });

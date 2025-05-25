@@ -4,7 +4,7 @@ import GoogleButton from 'react-google-button'
 
 const LoginPage = () => {
     const handleLogin = () => {
-        window.location.href = "http://localhost:3000/auth/google";
+        window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
     };
 
     return (
