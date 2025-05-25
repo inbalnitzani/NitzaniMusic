@@ -13,24 +13,25 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 
-const corsOptions = {
-  origin: ['http://localhost:5173', 'https://nitzani-client.onrender.com'],
+app.set("trust proxy", 1); 
+
+app.use(cors({
+  origin: "https://nitzani-client.onrender.com", 
   credentials: true
-};
-
-app.use(cors(corsOptions));
-
-app.set('trust proxy', 1);
+}));
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', 
-    sameSite: 'lax'
+    secure: true,        
+    sameSite: "none"     
   }
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.use(passport.initialize());
