@@ -14,8 +14,8 @@ router.get('/google',
 
 router.get('/google/callback',
   passport.authenticate('google', {
-    successRedirect: 'http://localhost:5173/admin',
-    failureRedirect: 'http://localhost:5173'
+    successRedirect: 'https://nitzani-client.onrender.com/admin',
+    failureRedirect: 'https://nitzani-client.onrender.com'
   })
 );
 
