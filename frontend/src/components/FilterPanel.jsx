@@ -27,7 +27,7 @@ export default function FilterPanel({ onChangeFilters }) {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:3000/filtersOptions`)
+        fetch(`${import.meta.env.VITE_API_URL}/filtersOptions`)
           .then(res => res.json())
           .then(data => {
             setFilters(prevFilters => {

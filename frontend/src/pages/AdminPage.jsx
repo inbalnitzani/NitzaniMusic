@@ -17,7 +17,7 @@ export default function AdminPage() {
 
   // check auth
     useEffect(() => {
-    fetch("http://localhost:3000/auth/user", {
+    fetch("${import.meta.env.VITE_API_URL}/auth/user", {
       credentials: "include"
     })
       .then(res => {
@@ -49,7 +49,7 @@ export default function AdminPage() {
     }
 
 
-    fetch(`http://localhost:3000/songs?${params.toString()}`)
+    fetch(`${import.meta.env.VITE_API_URL}/songs?${params.toString()}`)
       .then(res => res.json())
       .then(data => {
         setSongs(data.rows || data);
@@ -76,7 +76,7 @@ export default function AdminPage() {
   );
 
   if (!user) return <div>טוען מידע...</div>;
-  
+
   return (
     <div className="page">
       <h1>שירים</h1>
