@@ -12,10 +12,15 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors({
-  origin: "https://nitzanimusic.onrender.com",
+import cors from "cors";
+
+const corsOptions = {
+  origin: ['http://localhost:5173', 'https://nitzani-client.onrender.com'],
   credentials: true
-}));
+};
+
+app.use(cors(corsOptions));
+
 app.set('trust proxy', 1); 
 app.use(session({
   secret: process.env.SESSION_SECRET,
