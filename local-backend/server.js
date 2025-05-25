@@ -16,11 +16,15 @@ app.use(cors({
   origin: "https://nitzanimusic.onrender.com",
   credentials: true
 }));
-
+app.set('trust proxy', 1); 
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', 
+    sameSite: 'lax'
+  }
 }));
 
 app.use(passport.initialize());
@@ -39,5 +43,5 @@ app.use("/filtersOptions", filtersRouter);
 app.use("/auth", authRouter);  
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on Port:${port}`);
 });
