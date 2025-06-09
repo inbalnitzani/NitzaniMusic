@@ -16,8 +16,7 @@ export default function AdminPage() {
   const columns = [{ field: 'title', header: 'שם' }, { field: 'artist', header: 'מבצע' }, { field: 'authors', header: 'יוצרים' }, { field: 'geners', header: "ז'אנרים" }, { field: 'keywords', header: 'מילות מפתח' }, { field: 'link', header: 'קישור' }];
 
   // check auth
-    useEffect(() => {
-      console.log(`${import.meta.env.VITE_API_URL}/auth/user`);
+  useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/auth/user`, {
       credentials: "include"
     })
@@ -69,7 +68,7 @@ export default function AdminPage() {
     setPage(1);
   }
 
-    if (error) return (
+  if (error) return (
     <div style={{ color: "red", padding: "1rem" }}>
       <h3>שגיאה</h3>
       <p>{error}</p>

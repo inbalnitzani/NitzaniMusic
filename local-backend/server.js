@@ -11,12 +11,13 @@ import authRouter from "./routes/auth.js";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
+const isProduction = process.env.NODE_ENV === "production";
 
 
 app.set("trust proxy", 1); 
 
 app.use(cors({
-  origin: "https://nitzani-client.onrender.com", 
+  origin: ["http://localhost:5173", "https://nitzani-client.onrender.com"],
   credentials: true
 }));
 
@@ -25,8 +26,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,        
-    sameSite: "none"     
+    secure: isProduction,          // true רק בפרודקשן
+    sameSite: isProduction ? "none" : "lax" // "none" חובה אם secure=true (ב-HTTPS)
   }
 }));
 

@@ -39,8 +39,70 @@ const getFilters = async (req, res) => {
     }
   };
 
+const getSongById = async (req,res) => {
+  try{
+    const {id} = req.query.id;
+    if(!id)
+      return res.status(400).json({ error: "Missing song ID in query" });
+
+    const song = await SongModel.getSongById(id);
+      if (!song) {
+      return res.status(404).json({ error: "Song not found" });
+    }
+    res.json(song);
+  }
+  catch(err){
+        console.error("❌ DB query error:", err.message);
+        res.status(500).json({ error: "DB query failed" });  
+    }
+}
+
+const editSong = async (req, res) => {
+  try {
+    const {
+      id,
+      title,
+      artist,
+      album,
+      track,
+      authors,
+      tags,
+      keywords,
+      lyrics,
+      isFree,
+      score,
+      date,
+    } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: "Missing song ID" });
+    }
+
+    const result = await SongModel.updateSong({
+      id,
+      title,
+      artist,
+      album,
+      track,
+      authors,
+      tags,
+      keywords,
+      lyrics,
+      isFree,
+      score,
+      year: date ? new Date(date).getFullYear() : null,
+    });
+
+    res.json({ message: "Song updated", song: result });
+  } catch (err) {
+    console.error("❌ DB query error:", err.message);
+    res.status(500).json({ error: "DB query failed" });
+  }
+};
+
+
   
 
 export default {
-  getFilteredSongs,getFilters
+  getFilteredSongs,getFilters,getSongById,editSong
 };

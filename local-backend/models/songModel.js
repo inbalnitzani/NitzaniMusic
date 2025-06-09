@@ -87,4 +87,48 @@ export async function getFiltersOptions() {
     authors: authorsRes.rows.map(r => r.author),
     keywords: keywordsRes.rows.map(r => r.keyword),
   };
+
+}
+
+export async function getSongById(id) {
+  const song = await db.query(
+    "SELECT * FROM songs WHERE id = $1",
+    [id]
+  );
+  return result.rows[0]; 
+}
+
+export async function updateSong(song) {
+  const query = `
+    UPDATE songs
+    SET title = $1,
+        artist = $2,
+        album = $3,
+        authors = $4,
+        tags = $5,
+        keywords = $6,
+        lyrics = $7,
+        is_free = $8,
+        score = $9,
+        year = $10
+    WHERE id = $11
+    RETURNING *;
+  `;
+
+  const values = [
+    song.title,
+    song.artist,
+    song.album,
+    song.authors,
+    song.tags,
+    song.keywords,
+    song.lyrics,
+    song.isFree,
+    song.score,
+    song.year,
+    song.id,
+  ];
+
+  const result = await db.query(query, values);
+  return result.rows[0];
 }

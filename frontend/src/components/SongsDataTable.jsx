@@ -18,7 +18,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
     const [exportVisible, setExportVisible] = useState(false);
     const [newSongVisible, setnewSongVisible] = useState(false);
     const [fileName, setFileName] = useState('');
-    const [songToEdit,setSongToEdit] = useState(null);
+    const [songToEdit, setSongToEdit] = useState(null);
 
     const handlePageChange = (e) => {
 
@@ -59,6 +59,16 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
         setExportVisible(false);
     };
 
+    const openNewSongDialog = () => {
+        setSongToEdit(null);
+        setnewSongVisible(true);
+    };
+
+    const openEditSongDialog = (song) => {
+        setSongToEdit(song);
+        setnewSongVisible(true);
+    };
+
 
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
     const paginatorRight = <Button onClick={() => setExportVisible(true)} type="button" icon="pi pi-download" text />;
@@ -67,13 +77,22 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
 
         <div className="card " >
             {/* ADD NEW SONG DIALOG */}
-            <Dialog 
-            visible={newSongVisible}
-            style={{ width: '50vw' }} onHide={() => {
-                setSongToEdit(null)
-                if (!newSongVisible) return; setnewSongVisible(false); } } closeIcon={<i className="pi pi-times" />} >
-                <EditSong songToEdit={songToEdit}></EditSong>
+            <Dialog
+                visible={newSongVisible}
+                style={{ width: '50vw' }}
+                onHide={() => {
+                    setSongToEdit(null);
+                    setnewSongVisible(false);
+                }}
+                closeIcon={<i className="pi pi-times" />}
+            >
+                <EditSong songToEdit={songToEdit}
+                 onClose={() => {
+                    setSongToEdit(null);
+                    setnewSongVisible(false);
+                }} />
             </Dialog>
+
 
 
             {/* EXPORT DIALOG */}
@@ -82,10 +101,10 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                 closeIcon={<i className="pi pi-times" />}>
                 <div className="dialog-body">
                     <div className="p-fluid">
-                    <FloatLabel  >
-                        <InputText id="fileName" onChange={(e) => setFileName(e.target.value)} value={fileName} />
-                        <label htmlFor="fileName">שם הקובץ</label>
-                    </FloatLabel>
+                        <FloatLabel  >
+                            <InputText id="fileName" onChange={(e) => setFileName(e.target.value)} value={fileName} />
+                            <label htmlFor="fileName">שם הקובץ</label>
+                        </FloatLabel>
                     </div>
                     <div className="dialog-buttons">
 
@@ -97,7 +116,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
 
             {/* SONGS TABLE */}
             <DataTable value={songs}
-            dir="rtl"
+                dir="rtl"
                 lazy
                 paginator
                 paginatorLeft={paginatorLeft}
@@ -111,16 +130,13 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                 selection={selectedSongs} onSelectionChange={(e) => setSelectedSongs(e.value)}
                 className="songs-table">
 
-                                    {/* SELECT FOR EXPORT */}
+                {/* SELECT FOR EXPORT */}
                 <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
                 {/* EDIT */}
-                <Column 
-                    header={<Button type="button" icon="pi pi-plus" text onClick={() => setnewSongVisible(true)}/>} 
-                    body={(rowData) => (<Button type="button" icon="pi pi-pen-to-square" text onClick={() => {
-                        setnewSongVisible(true)
-                        setSongToEdit(rowData)
-                        }} />)}>
-                        
+                <Column
+                    header={<Button type="button" icon="pi pi-plus" text onClick={() => { openNewSongDialog() }} />}
+                    body={(rowData) => (<Button type="button" icon="pi pi-pen-to-square" text onClick={() => openEditSongDialog(rowData)} />)}>
+
                 </Column>
 
                 {columns.map((col, i) => (
@@ -131,7 +147,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                             key={col.field}
                             header={col.header}
                             body={(rowData) =>
-                                
+
                                 rowData.link ? (
                                     <Button
                                         icon="pi pi-play-circle"
@@ -153,7 +169,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                                 <TruncatedCell
                                     tooltipId={col.header + i}
                                     value={
-                                      rowData[col.field]
+                                        rowData[col.field]
                                     }
                                 />
                             )}
