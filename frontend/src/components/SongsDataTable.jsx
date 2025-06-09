@@ -10,6 +10,7 @@ import { SongsExcel } from "./SongsExcel";
 import { InputText } from "primereact/inputtext";
 import { FloatLabel } from "primereact/floatlabel";
 import EditSong from "./EditSong";
+import { Tooltip } from "react-tooltip";
 export default function SongsDataTable({ columns, songs, totalRecords, onPageChange }) {
 
     const [page, setPage] = useState(1);
@@ -135,8 +136,7 @@ export default function SongsDataTable({ columns, songs, totalRecords, onPageCha
                 {/* EDIT */}
                 <Column
                     header={<Button type="button" icon="pi pi-plus" text onClick={() => { openNewSongDialog() }} />}
-                    body={(rowData) => (<Button type="button" icon="pi pi-pen-to-square" text onClick={() => openEditSongDialog(rowData)} />)}>
-
+                    body={(rowData) => (<Button type="button" icon="pi pi-pen-to-square" text onClick={() => openEditSongDialog(rowData)} tooltip="ערוך שיר"/>)}>
                 </Column>
 
                 {columns.map((col, i) => (
