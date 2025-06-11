@@ -76,11 +76,11 @@ export async function countFilteredSongs({ authors, keywords, lyrics }) {
 
 export async function getFiltersOptions() {
   const authorsRes = await db.query(
-    "SELECT DISTINCT unnest(authors) AS author FROM songs WHERE array_length(authors, 1) > 0;"
+    "SELECT DISTINCT unnest(authors) AS author FROM songs WHERE array_length(authors, 1) > 0 ORDER by author;"
   );
 
   const keywordsRes = await db.query(
-    "SELECT DISTINCT unnest(keywords) AS keyword FROM songs WHERE array_length(keywords, 1) > 0;"
+    "SELECT DISTINCT unnest(keywords) AS keyword FROM songs WHERE array_length(keywords, 1) > 0 ORDER BY keyword;"
   );
 
   return {
